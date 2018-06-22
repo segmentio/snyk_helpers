@@ -3,7 +3,6 @@ LATEST_VERSION=$(echo $LATEST_RELEASE | sed -e 's/.*"tag_name":"\([^"]*\)".*/\1/
 BINARY_URL="https://github.com/snyk/snyk/releases/download/$LATEST_VERSION/snyk-linux"
 
 [ -z "$SNYK_LEVEL" ] && { echo "Set SNYK_LEVEL = 'RPRT' in the CircleCI environment variables settings"; exit 1; }
-[ -z "$SNYK_ORG" ] && { echo "Set SNYK_ORG = 'segment_pro' in the CircleCI environment variables settings"; exit 1; }
 [ -z "$SNYK_TOKEN" ] && { echo "Set 'context: snyk' in your .circleci/config.yml workflow"; exit 1; }
 
 curl -sL "$BINARY_URL" -o snyk-linux
