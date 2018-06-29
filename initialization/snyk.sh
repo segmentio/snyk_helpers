@@ -6,6 +6,12 @@ BINARY_URL="https://github.com/snyk/snyk/releases/download/$LATEST_VERSION/snyk-
 [ -z "$SNYK_TOKEN" ] && { echo "Set 'context: snyk' in your .circleci/config.yml workflow"; exit 1; }
 
 curl -sL "$BINARY_URL" -o snyk-linux
+
+if [ ! -f snyk-linux1 ]; then
+  echo "Snyk failed to download!";
+  exist 0;
+fi
+
 chmod +x snyk-linux
 
 if [ "$SNYK_LEVEL" = "RPRT" ]; then
