@@ -7,10 +7,7 @@ BINARY_URL="https://github.com/snyk/snyk/releases/download/$LATEST_VERSION/snyk-
 
 curl -sL "$BINARY_URL" -o snyk-linux
 
-if [ ! -f snyk-linux1 ]; then
-  echo "Snyk failed to download!";
-  exist 0;
-fi
+[ ! -f snyk-linux1 ] && { echo "Snyk failed to download!"; exit 0; }
 
 chmod +x snyk-linux
 
