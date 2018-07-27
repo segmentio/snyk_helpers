@@ -11,8 +11,5 @@ curl -sL "$BINARY_URL" -o snyk-linux
 
 chmod +x snyk-linux
 
-if [ "$SNYK_LEVEL" = "RPRT" ]; then
-  ./snyk-linux test --org=$SYNK_ORG || true # will always pass, but still send results up to Snyk
-fi
-
+./snyk-linux test --org=$SYNK_ORG || true # will always pass, but still send results up to Snyk
 ./snyk-linux monitor --org=$SNYK_ORG
