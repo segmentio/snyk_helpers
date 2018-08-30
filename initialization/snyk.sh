@@ -11,5 +11,5 @@ curl -sL "$BINARY_URL" -o snyk-linux
 
 chmod +x snyk-linux
 
-./snyk-linux test --org=$SYNK_ORG || true # will always pass, but still send results up to Snyk
+./snyk-linux test --org=$SNYK_ORG || true # will always pass, but still send results up to Snyk
 ./snyk-linux monitor --org=$SNYK_ORG
