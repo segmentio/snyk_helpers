@@ -12,8 +12,9 @@ curl -sL "$BINARY_URL" -o snyk-linux
 chmod +x snyk-linux
 
 if [ "$SNYK_LEVEL" = "FLHI" ]; then
-    ./snyk-linux test --severity-threshold=high --org=$SNYK_ORG
+    ./snyk-linux test --severity-threshold=high
 else
-    ./snyk-linux test --org=$SNYK_ORG || true # will always pass, but still send results up to Snyk
+    ./snyk-linux test || true # will always pass, but still send results up to Snyk
 fi
-./snyk-linux monitor --org=$SNYK_ORG
+
+./snyk-linux monitor
