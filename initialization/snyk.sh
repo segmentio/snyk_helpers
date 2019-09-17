@@ -11,8 +11,8 @@ curl -sL "$BINARY_URL" -o snyk-linux
 
 chmod +x snyk-linux
 
-./snyk-linux test || true # will always pass, but still send results up to Snyk                                                                                                
-./snyk-linux monitor || true # suppresses errors w/ snyk monitor (which shouldn't have any)                                                                                    
+./snyk-linux test -d || true # will always pass, but still send results up to Snyk                                                                                                
+./snyk-linux monitor -d || true # suppresses errors w/ snyk monitor (which shouldn't have any)                                                                                    
 
 if [ "$SNYK_LEVEL" = "FLHI" ]; then
     ./snyk-linux test --severity-threshold=high -q
