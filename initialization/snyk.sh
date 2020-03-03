@@ -37,10 +37,6 @@ fi
 # suppresses errors w/ snyk monitor (which shouldn't have any)
 ./snyk monitor ${monitor_flags[@]} || true
 
-if [[ "${NEVER_FAIL}" = "true" ]]; then
-  set +e
-fi
-
 echo "~~~ Running Snyk tests"
 ./snyk test ${flags[@]}
 
