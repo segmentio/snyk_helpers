@@ -43,3 +43,7 @@ fi
 
 echo "~~~ Running Snyk tests"
 ./snyk test ${flags[@]}
+
+if [[ "${NEVER_FAIL}" = true ]]; then
+  exit 0;
+fi
