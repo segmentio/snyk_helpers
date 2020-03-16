@@ -20,7 +20,7 @@ debug="${SNYK_DEBUG:-false}" # debug output is messy
 # need to swap it out so that the CLI doesn't complain about "never" not being a thing
 if [[ "${fail_on}" = "never" ]]; then
   fail_on=all
-  NEVER_FAIL=true 
+  NEVER_FAIL="true" 
 fi
 
 flags=(
@@ -38,12 +38,14 @@ if [[ $debug =~ (true|on|1) ]] ; then
   monitor_flags+=( "-d" )
 fi
 
+# prevent the script from ever exiting non-zero
+if [[ "${NEVER_FAIL}" = "true" ]]; then
+  set +e;
+fi
+
 # suppresses errors w/ snyk monitor (which shouldn't have any)
 ./snyk monitor "${monitor_flags[@]}" || true
 
 echo "Running Snyk tests"
 ./snyk test "${flags[@]}"
 
-if [[ "${NEVER_FAIL}" = true ]]; then
-  exit 0;
-fi
