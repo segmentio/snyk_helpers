@@ -5,15 +5,19 @@
 LATEST_RELEASE=$(curl -L -s -H 'Accept: application/json' https://github.com/snyk/snyk/releases/latest)
 LATEST_VERSION=$(echo $LATEST_RELEASE | sed -e 's/.*"tag_name":"\([^"]*\)".*/\1/')
 BINARY_URL="https://github.com/snyk/snyk/releases/download/$LATEST_VERSION/snyk-linux"
+NEVER_FAIL=false
 
 curl -sL "$BINARY_URL" -o snyk
 [ ! -f snyk ] && { echo "Snyk failed to download!"; exit 0; }
 chmod +x snyk
 
-severity_threshold="${severity_threshold:-low}" # by default show all vulns
-fail_on="${fail_on:-never}" # by default never fail (backwards compatibility)
-debug="${debug:-false}" # debug output is messy
+org="${SNYK_ORG:-segment-pro}"
+severity_threshold="${SNYK_SEVERITY_THRESHOLD:-low}" # by default show all vulns
+fail_on="${SNYK_FAIL_ON:-upgradable}" # by default never fail (backwards compatibility)
+debug="${SNYK_DEBUG:-false}" # debug output is messy
 
+# "never" is not a valid input, but we make it a valid input to this script, so we
+# need to swap it out so that the CLI doesn't complain about "never" not being a thing
 if [[ "${fail_on}" = "never" ]]; then
   fail_on=all
   NEVER_FAIL=true 
@@ -35,10 +39,10 @@ if [[ $debug =~ (true|on|1) ]] ; then
 fi
 
 # suppresses errors w/ snyk monitor (which shouldn't have any)
-./snyk monitor ${monitor_flags[@]} || true
+./snyk monitor "${monitor_flags[@]}" || true
 
-echo "~~~ Running Snyk tests"
-./snyk test ${flags[@]}
+echo "Running Snyk tests"
+./snyk test "${flags[@]}"
 
 if [[ "${NEVER_FAIL}" = true ]]; then
   exit 0;
