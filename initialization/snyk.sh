@@ -13,14 +13,14 @@ chmod +x snyk
 
 org="${SNYK_ORG:-segment-pro}"
 severity_threshold="${SNYK_SEVERITY_THRESHOLD:-low}" # by default show all vulns
-fail_on="${SNYK_FAIL_ON:-upgradable}" # by default never fail (backwards compatibility)
+fail_on="${SNYK_FAIL_ON:-never}" # by default never fail (backwards compatibility)
 debug="${SNYK_DEBUG:-false}" # debug output is messy
 
 # "never" is not a valid input, but we make it a valid input to this script, so we
 # need to swap it out so that the CLI doesn't complain about "never" not being a thing
 if [[ "${fail_on}" = "never" ]]; then
   fail_on=all
-  NEVER_FAIL="true" 
+  NEVER_FAIL="true"
 fi
 
 flags=(
