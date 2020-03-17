@@ -4,7 +4,7 @@
 
 LATEST_RELEASE=$(curl -L -s -H 'Accept: application/json' https://github.com/snyk/snyk/releases/latest)
 LATEST_VERSION=$(echo $LATEST_RELEASE | sed -e 's/.*"tag_name":"\([^"]*\)".*/\1/')
-BINARY_URL="https://github.com/snyk/snyk/releases/download/$LATEST_VERSION/snyk-linux"
+BINARY_URL="https://github.com/snyk/snyk/releases/download/$LATEST_VERSION/snyk-macos"
 NEVER_FAIL=false
 
 curl -sL "$BINARY_URL" -o snyk
@@ -35,4 +35,5 @@ fi
 ./snyk monitor --org="${org}" "${debugf}" || true
 
 echo "Running Snyk tests"
+echo "DEBUG: --severity-threshold=${severity_threshold} --fail-on=${fail_on} --org=${org} ${debugf}"
 ./snyk test --severity-threshold="${severity_threshold}" --fail-on="${fail_on}" --org="${org}" "${debugf}"
