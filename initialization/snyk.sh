@@ -23,15 +23,8 @@ if [ "${fail_on}" = "never" ]; then
   NEVER_FAIL="true"
 fi
 
-flags=(
-  "--severity-threshold=$severity_threshold"
-  "--fail-on=$fail_on"
-  "--org=$org"
-)
-
-monitor_flags=(
-  "--org=$org"
-)
+flags=( "--severity-threshold=$severity_threshold" "--fail-on=$fail_on" "--org=$org" )
+monitor_flags=( "--org=$org" )
 
 if [[ $debug =~ (true|on|1) ]] ; then
   flags+=( "-d" )
@@ -48,4 +41,3 @@ fi
 
 echo "Running Snyk tests"
 ./snyk test "${flags[@]}"
-
