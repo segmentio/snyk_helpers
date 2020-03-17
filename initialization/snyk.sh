@@ -18,7 +18,7 @@ debug="${SNYK_DEBUG:-false}" # debug output is messy
 
 # "never" is not a valid input, but we make it a valid input to this script, so we
 # need to swap it out so that the CLI doesn't complain about "never" not being a thing
-if [[ "${fail_on}" = "never" ]]; then
+if [ "${fail_on}" = "never" ]; then
   fail_on=all
   NEVER_FAIL="true"
 fi
