@@ -1,7 +1,6 @@
 #!/bin/bash
 
 [ -z "$SNYK_TOKEN" ] && { echo "Set 'context: snyk' in your .circleci/config.yml workflow"; exit 1; }
-[ -z "$SNYK_ORG" ] && { echo "Set 'context: snyk' in your .circleci/config.yml workflow or set SNYK_ORG in your environment"; exit 1; }
 
 LATEST_RELEASE=$(curl -L -s -H 'Accept: application/json' https://github.com/snyk/snyk/releases/latest)
 LATEST_VERSION=$(echo $LATEST_RELEASE | sed -e 's/.*"tag_name":"\([^"]*\)".*/\1/')
@@ -12,10 +11,10 @@ curl -sL "$BINARY_URL" -o snyk
 [ ! -f snyk ] && { echo "Snyk failed to download!"; exit 0; }
 chmod +x snyk
 
+org="${SNYK_ORG:-segment-pro}"
 severity_threshold="${SNYK_SEVERITY_THRESHOLD:-low}" # by default show all vulns
 fail_on="${SNYK_FAIL_ON:-never}" # by default never fail (backwards compatibility)
 debug="${SNYK_DEBUG:-false}" # debug output is messy
-org="${SNYK_ORG:-segment-pro}"
 
 # "never" is not a valid input, but we make it a valid input to this script, so we
 # need to swap it out so that the CLI doesn't complain about "never" not being a thing
