@@ -32,3 +32,8 @@ fi
 
 echo "Running Snyk tests"
 ./snyk test --severity-threshold="${severity_threshold}" --fail-on="${fail_on}" --org="${org}"
+
+# prevent the script from ever exiting non-zero
+if [ "${NEVER_FAIL}" = "true" ]; then
+  exit 0;
+fi
