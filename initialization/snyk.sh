@@ -39,12 +39,13 @@ echo "goodbye2"
 ./snyk monitor --org="${org}" || true
 
 echo "Running Snyk tests"
-./snyk test --severity-threshold="${severity_threshold}" --fail-on="${fail_on}" --org="${org}"
+exitCode=snyk test --severity-threshold="${severity_threshold}" --fail-on="${fail_on}" --org="${org}"
 
 # prevent the script from ever exiting non-zero
 if [ "${NEVER_FAIL}" = "true" ]; then
   exit 0;
 fi
 
-echo $?
-exit $?
+echo $exitCode
+echo "$exitCode"
+exit "$exitCode"
