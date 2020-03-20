@@ -1,7 +1,6 @@
 #!/bin/bash
 
 [ -z "$SNYK_TOKEN" ] && { echo "Set 'context: snyk' in your .circleci/config.yml workflow"; exit 1; }
-[ -z "$SNYK_ORG" ] && { echo "Set 'context: snyk' in your .circleci/config.yml workflow or set SNYK_ORG in your environment"; exit 1; }
 
 LATEST_RELEASE=$(curl -L -s -H 'Accept: application/json' https://github.com/snyk/snyk/releases/latest)
 LATEST_VERSION=$(echo $LATEST_RELEASE | sed -e 's/.*"tag_name":"\([^"]*\)".*/\1/')
@@ -14,13 +13,12 @@ chmod +x snyk
 
 echo "hi1"
 echo $SNYK_TOKEN
-echo $SNYK_ORG
 echo $SNYK_SEVERITY_THRESHOLD
 echo $SNYK_FAIL_ON
 echo $NEVER_FAIL
 echo "goodbye1"
 
-org="${SNYK_ORG}"
+org="${SNYK_ORG:-segment-pro}"
 severity_threshold="${SNYK_SEVERITY_THRESHOLD:-low}" # by default show all vulns
 fail_on="${SNYK_FAIL_ON:-never}" # by default never fail (backwards compatibility)
 
