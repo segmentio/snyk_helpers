@@ -28,12 +28,6 @@ if [ "${fail_on}" = "never" ]; then
   NEVER_FAIL="true"
 fi
 
-# suppresses errors w/ snyk monitor (which shouldn't have any)
-./snyk monitor --org="${org}" || true
-
-echo "Running Snyk tests"
-./snyk test --severity-threshold="${severity_threshold}" --fail-on="${fail_on}" --org="${org}"
-
 echo "hi2"
 echo $org
 echo $severity_threshold
@@ -41,9 +35,16 @@ echo $fail_on
 echo $NEVER_FAIL
 echo "goodbye2"
 
+# suppresses errors w/ snyk monitor (which shouldn't have any)
+./snyk monitor --org="${org}" || true
+
+echo "Running Snyk tests"
+./snyk test --severity-threshold="${severity_threshold}" --fail-on="${fail_on}" --org="${org}"
+
 # prevent the script from ever exiting non-zero
 if [ "${NEVER_FAIL}" = "true" ]; then
   exit 0;
 fi
 
-exit 1
+echo $?
+exit $?
