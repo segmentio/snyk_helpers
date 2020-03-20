@@ -33,6 +33,7 @@ fi
 
 echo "Running Snyk tests"
 ./snyk test --severity-threshold="${severity_threshold}" --fail-on="${fail_on}" --org="${org}"
+echo $?
 
 echo "hi2"
 echo $org
