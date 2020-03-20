@@ -1,6 +1,7 @@
 #!/bin/bash
 
 [ -z "$SNYK_TOKEN" ] && { echo "Set 'context: snyk' in your .circleci/config.yml workflow"; exit 1; }
+[ -z "$SNYK_ORG" ] && { echo "Set 'context: snyk' in your .circleci/config.yml workflow or set SNYK_ORG in your environment"; exit 1; }
 
 LATEST_RELEASE=$(curl -L -s -H 'Accept: application/json' https://github.com/snyk/snyk/releases/latest)
 LATEST_VERSION=$(echo $LATEST_RELEASE | sed -e 's/.*"tag_name":"\([^"]*\)".*/\1/')
@@ -11,13 +12,15 @@ curl -sL "$BINARY_URL" -o snyk
 [ ! -f snyk ] && { echo "Snyk failed to download!"; exit 0; }
 chmod +x snyk
 
-echo "hi"
+echo "hi1"
+echo $SNYK_TOKEN
 echo $SNYK_ORG
 echo $SNYK_SEVERITY_THRESHOLD
 echo $SNYK_FAIL_ON
-echo "goodbye"
+echo $NEVER_FAIL
+echo "goodbye1"
 
-org="${SNYK_ORG:-segment-pro}"
+org="${SNYK_ORG}"
 severity_threshold="${SNYK_SEVERITY_THRESHOLD:-low}" # by default show all vulns
 fail_on="${SNYK_FAIL_ON:-never}" # by default never fail (backwards compatibility)
 
@@ -38,6 +41,13 @@ fi
 
 echo "Running Snyk tests"
 ./snyk test --severity-threshold="${severity_threshold}" --fail-on="${fail_on}" --org="${org}"
+
+echo "hi2"
+echo $org
+echo $severity_threshold
+echo $fail_on
+echo $NEVER_FAIL
+echo "goodbye2"
 
 # prevent the script from ever exiting non-zero
 if [ "${NEVER_FAIL}" = "true" ]; then
