@@ -12,7 +12,6 @@ curl -sL "$BINARY_URL" -o snyk
 chmod +x snyk
 
 echo "hi1"
-echo $SNYK_TOKEN
 echo $SNYK_SEVERITY_THRESHOLD
 echo $SNYK_FAIL_ON
 echo $NEVER_FAIL
@@ -27,11 +26,6 @@ fail_on="${SNYK_FAIL_ON:-never}" # by default never fail (backwards compatibilit
 if [ "${fail_on}" = "never" ]; then
   fail_on=all
   NEVER_FAIL="true"
-fi
-
-# prevent the script from ever exiting non-zero
-if [ "${NEVER_FAIL}" = "true" ]; then
-  set +e;
 fi
 
 # suppresses errors w/ snyk monitor (which shouldn't have any)
