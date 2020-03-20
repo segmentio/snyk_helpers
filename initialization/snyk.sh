@@ -35,5 +35,3 @@ if [ "${NEVER_FAIL}" = "true" ]; then
 fi
 
 echo $exitCode
-echo "$exitCode"
-exit "$exitCode"
