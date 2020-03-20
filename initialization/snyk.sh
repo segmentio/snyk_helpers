@@ -11,12 +11,6 @@ curl -sL "$BINARY_URL" -o snyk
 [ ! -f snyk ] && { echo "Snyk failed to download!"; exit 0; }
 chmod +x snyk
 
-echo "hi1"
-echo $SNYK_SEVERITY_THRESHOLD
-echo $SNYK_FAIL_ON
-echo $NEVER_FAIL
-echo "goodbye1"
-
 org="${SNYK_ORG:-segment-pro}"
 severity_threshold="${SNYK_SEVERITY_THRESHOLD:-low}" # by default show all vulns
 fail_on="${SNYK_FAIL_ON:-never}" # by default never fail (backwards compatibility)
@@ -28,18 +22,12 @@ if [ "${fail_on}" = "never" ]; then
   NEVER_FAIL="true"
 fi
 
-echo "hi2"
-echo $org
-echo $severity_threshold
-echo $fail_on
-echo $NEVER_FAIL
-echo "goodbye2"
-
 # suppresses errors w/ snyk monitor (which shouldn't have any)
 ./snyk monitor --org="${org}" || true
 
 echo "Running Snyk tests"
-exitCode=snyk test --severity-threshold="${severity_threshold}" --fail-on="${fail_on}" --org="${org}"
+./snyk test --severity-threshold="${severity_threshold}" --fail-on="${fail_on}" --org="${org}"
+exitCode=$?
 
 # prevent the script from ever exiting non-zero
 if [ "${NEVER_FAIL}" = "true" ]; then
