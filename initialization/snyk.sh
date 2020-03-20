@@ -33,10 +33,8 @@ fi
 
 echo "Running Snyk tests"
 ./snyk test --severity-threshold="${severity_threshold}" --fail-on="${fail_on}" --org="${org}"
-exitCode=$?
 
 echo "hi2"
-echo $exitCode
 echo $org
 echo $severity_threshold
 echo $fail_on
@@ -48,4 +46,4 @@ if [ "${NEVER_FAIL}" = "true" ]; then
   exit 0;
 fi
 
-exit exitCode
+exit 1
