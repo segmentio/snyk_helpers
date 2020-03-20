@@ -11,6 +11,12 @@ curl -sL "$BINARY_URL" -o snyk
 [ ! -f snyk ] && { echo "Snyk failed to download!"; exit 0; }
 chmod +x snyk
 
+echo "hi"
+echo $SNYK_ORG
+echo $SNYK_SEVERITY_THRESHOLD
+echo $SNYK_FAIL_ON
+echo "goodbye"
+
 org="${SNYK_ORG:-segment-pro}"
 severity_threshold="${SNYK_SEVERITY_THRESHOLD:-low}" # by default show all vulns
 fail_on="${SNYK_FAIL_ON:-never}" # by default never fail (backwards compatibility)
