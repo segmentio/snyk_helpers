@@ -34,4 +34,4 @@ if [ "${NEVER_FAIL}" = "true" ]; then
   exit 0;
 fi
 
-exit $exitCode
+exit "$exitCode"
