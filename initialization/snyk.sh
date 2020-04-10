@@ -14,6 +14,7 @@ chmod +x snyk
 org="${SNYK_ORG:-segment-pro}"
 severity_threshold="${SNYK_SEVERITY_THRESHOLD:-low}" # by default show all vulns
 fail_on="${SNYK_FAIL_ON:-never}" # by default never fail (backwards compatibility)
+custom_args="${SNYK_CUSTOM_ARGS}" # some projects need niche config options
 
 # "never" is not a valid input, but we make it a valid input to this script, so we
 # need to swap it out so that the CLI doesn't complain about "never" not being a thing
@@ -23,10 +24,10 @@ if [ "${fail_on}" = "never" ]; then
 fi
 
 # suppresses errors w/ snyk monitor (which shouldn't have any)
-./snyk monitor --org="${org}" || true
+./snyk monitor --org="${org}" ${custom_args} || true
 
 echo "Running Snyk tests"
-./snyk test --severity-threshold="${severity_threshold}" --fail-on="${fail_on}" --org="${org}"
+./snyk test --severity-threshold="${severity_threshold}" --fail-on="${fail_on}" --org="${org}" ${custom_args}
 exitCode=$?
 
 # prevent the script from ever exiting non-zero

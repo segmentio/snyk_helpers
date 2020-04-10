@@ -50,20 +50,20 @@ If you have any problems with Snyk, please pop into the #team-appsec Slack chann
 
 ## Options
 
-### `token`
+### `SNYK_TOKEN`
 
 The Snyk API token to use. Defaults to the `$SNYK_TOKEN` environment variable.
 
-### `org`
+### `SNYK_ORG`
 
 The Snyk organization slug to use. Defaults to the `$SNYK_ORG` environment variable.
 
-### `severity-threshold`
+### `SNYK_SEVERITY_THRESHOLD-threshold`
 
 Only report vulnerabilities of provided level or higher. Matches the behavior of the CLI flag of the same name.
 Should be one of `low`, `medium`, `high`.
 
-### `fail-on`
+### `SNYK_FAIL_ON`
 
 Only fail when there are vulnerabilities that can be fixed. Matches the behavior of the CLI flag of the same name.
 Should be one of `all`, `upgradable`, `patchable`, `never`. From the docs:
@@ -76,3 +76,20 @@ Should be one of `all`, `upgradable`, `patchable`, `never`. From the docs:
 
 We added here the `never` option which prevents the plugin from ever returning non-zero.
 In this case, the plugin will only report the output of the scan but never fail the step.
+
+### `SNYK_CUSTOM_ARGS`
+
+Snyk has a variety of less-frequently used options that may be situationally useful. Instead of supporting
+all potential options, you can append any number of options to the end of the `snyk test` and `snyk monitor` commands.
+
+The following example shows using the `--file` option to help scan a .NET project as well as the `-d` option to help with debugging.
+
+```
+- run:
+    name: Snyk
+    command: curl -sL https://raw.githubusercontent.com/segmentio/snyk_helpers/custom-args/initialization/snyk.sh | sh
+    environment:
+      SNYK_FAIL_ON: upgradable
+      SNYK_SEVERITY_THRESHOLD: high
+      SNYK_CUSTOM_ARGS: --file=Analytics.NET.sln -d
+```
