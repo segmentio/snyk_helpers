@@ -24,10 +24,10 @@ if [ "${fail_on}" = "never" ]; then
 fi
 
 # suppresses errors w/ snyk monitor (which shouldn't have any)
-./snyk monitor --org="${org}" ${custom_args} || true
+./snyk monitor --org="${org}" "${custom_args}" || true
 
 echo "Running Snyk tests"
-./snyk test --severity-threshold="${severity_threshold}" --fail-on="${fail_on}" --org="${org}" ${custom_args}
+./snyk test --severity-threshold="${severity_threshold}" --fail-on="${fail_on}" --org="${org}" "${custom_args}"
 exitCode=$?
 
 # prevent the script from ever exiting non-zero
